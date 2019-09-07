@@ -5,8 +5,27 @@ public class UnboundedThreadPoolExample {
 
     public static void main(String[] args) {
         int TOTAL_FLIGHT_BOOKINGS = 20;
+        /**
+         * Below flights are booked sequentially and though below method works,
+         * but we may not be able achieve acceptable throughput through this approach
+         */
         receiveAndBookFlightTicketsSequentially(TOTAL_FLIGHT_BOOKINGS);
 
+        /**
+         * Below we spawn a thread for each flight booking request.
+         * This way each flight booking request is taken care of asynchronously
+         * but since we haven't put a bound on number of threads to create,
+         * we may end up creating as many number of threads as the number of bookings we're making in the worst case
+         *
+         *
+         * Creating threads without bound is (usually) not a good approach as
+         * 1. Thread creation and destruction isn't free
+         * 2. Active threads occupy memory even if they're idle.
+         *    If number of processors < number of threads, then multiple threads may sit idle eating up memory
+         * 3. Inherently OS and JVM put a limit on number of threads that can be spawned.
+         *
+         * In the worst case, unbounded thread may cause the program to crash.
+         */
         receiveAndBookFlightTicketsParallel(TOTAL_FLIGHT_BOOKINGS);
     }
 
