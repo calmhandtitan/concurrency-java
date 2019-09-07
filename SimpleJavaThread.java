@@ -30,6 +30,7 @@ class SimpleTask implements Runnable {
     }
 }
 
+// Class extending Thread class, reduces code flexibility
 class SimpleTaskForThread extends Thread {
     @Override
     public void run() {
